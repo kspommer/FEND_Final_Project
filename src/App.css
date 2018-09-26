@@ -8,8 +8,8 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #7C0A02;
+  height: 100px;
   padding: 20px;
   color: white;
 }
@@ -27,7 +27,29 @@
   to { transform: rotate(360deg); }
 }
 
-.map {
-  height: 100%;
-  width: 100%;
+
+.main-content{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 499px) {
+  .picklist {
+    width: 100%;
+    height: 100%;
+  }
+
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .picklist {
+    width: 20%;
+  }
+  .map {
+    width: 80%;
+  }
 }
