@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Map from './Map.js'
+
 
 class App extends Component {
+  state = {
+    defaultCenter: {lat: 43.0731, lng: -89.4012},
+    defaultZoom: 11
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+      <div className="App"> 
+        <header>
+          <h2>Madison Microbreweries</h2>
+          <h5>Because we all need a drink to celebrate finishing this class, right?</h5>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+        <Map center={this.state.defaultCenter} zoom={this.state.defaultZoom}/>
+      </div>  
     );
   }
 }
 
-export default App;
+export default App
