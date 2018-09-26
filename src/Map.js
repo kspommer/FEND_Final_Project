@@ -14,6 +14,9 @@ class Map extends Component {
           defaultZoom={this.props.zoom}
         >
         </GoogleMapReact>
+        
+        <Marker map={this.state.map}/>
+
       </div>
     );
   }
