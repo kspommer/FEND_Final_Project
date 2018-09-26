@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Map from './Map.js'
-
+import Map from './Map.js';
+import Header from './Header.js'
+import Footer from './Footer.js'
 
 class App extends Component {
   state = {
@@ -13,10 +14,18 @@ class App extends Component {
     return (
       <div className="App"> 
         <header>
-          <h2>Madison Microbreweries</h2>
-          <h5>Because we all need a drink to celebrate finishing this class, right?</h5>
+          <Header/>
         </header>
+          
         <Map center={this.state.defaultCenter} zoom={this.state.defaultZoom}/>
+
+
+
+
+
+        <footer>
+          <Footer/>
+        </footer>
       </div>  
     );
   }
