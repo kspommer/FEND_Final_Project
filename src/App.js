@@ -1,6 +1,9 @@
 // References:  
 // https://developers.google.com/maps/documentation/javascript/tutorial
 // Axios:  https://github.com/axios/axios
+// https://developer.foursquare.com/docs/api
+// https://www.youtube.com/watch?v=Dj5hzKBxCBI
+// https://www.youtube.com/watch?v=dAhMIF0fNpo
 
 
 import React, { Component } from 'react';
@@ -11,7 +14,7 @@ import './App.css';
 import Header from './Header.js'
 import Footer from './Footer.js'
 
-
+// my favorite microbreweries in Madison WI
 const breweryList = [
   {venue_Id: "4d686a320a25b60c55821790", name: "Great Dane Pub and Brewing Company", lat: 43.074376, lng: -89.380065, serveFood: "full menu"}, 
   {venue_Id: "5704352b38fad4ea22a2da45", name: "Rockhound Brewing Company", lat: 43.06241, lng: -89.401158, serveFood: "full menu" }, 
@@ -62,24 +65,28 @@ class App extends Component {
   // function to call FourSquare to get data 
   getBreweryData = () => {
     //let breweryLocationData = [];
-    // going to create a loop to get each venue_Id
-    // array of objects with location data
-    const endPoint = "https://api.foursquare.com/v2/venues/4d686a320a25b60c55821790"
-    //using FourSquare Get Details of a Venue API 
+
+    // authentication and bas URL for FourSquare Get Details of a Venue API 
     const client_id = "ZWIBO3U1HBUWEJEMMOOGJNRPI1NALRWDIMDNTNPIAKMSUSJO"
     const client_secret = "OYD1TLNRJVVBZTL31KX0TRWG2AINNBJ1GXKNJTXVXCLHKSNF"
     const v = "20180929"
+    const baseURL = "https://api.foursquare.com/v2/venues/" 
 
-    const call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
+    // loop through breweries array to get venue details data
+    this.state.breweries.map(brewery => {
+      let brewery_venue = brewery.venue_Id
+      let endPoint = baseURL + brewery_venue
+      let call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
 
-    axios.get(call)
-      .then(response => {
-        console.log(response)
-      })
-      // error if API call unsuccessful
-      .catch(error => {
-        console.log("Error" + error)
-      })
+      axios.get(call)
+        .then(response => {
+          console.log(response) // TESTING 
+        })
+        // error if API call unsuccessful
+        .catch(error => {
+          console.log("Error" + error)
+        })
+    })
   }
 
   // onclick that calls InfoWindow component
