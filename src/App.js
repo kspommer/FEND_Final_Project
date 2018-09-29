@@ -64,19 +64,21 @@ class App extends Component {
     //let breweryLocationData = [];
     // going to create a loop to get each venue_Id
     // array of objects with location data
-    const endPoint = "https://api.foursquare.com/v2/venues/breweries.venue_Id[0]"
+    const endPoint = "https://api.foursquare.com/v2/venues/4d686a320a25b60c55821790"
     //using FourSquare Get Details of a Venue API 
     const client_id = "ZWIBO3U1HBUWEJEMMOOGJNRPI1NALRWDIMDNTNPIAKMSUSJO"
-    const client_server = "OYD1TLNRJVVBZTL31KX0TRWG2AINNBJ1GXKNJTXVXCLHKSNF"
-    const v = "20180823"
+    const client_secret = "OYD1TLNRJVVBZTL31KX0TRWG2AINNBJ1GXKNJTXVXCLHKSNF"
+    const v = "20180929"
 
-    axios.get(endPoint + client_id + client_server + v)
+    const call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
+
+    axios.get(call)
       .then(response => {
         console.log(response)
       })
       // error if API call unsuccessful
       .catch(error => {
-        console.log("Error")
+        console.log("Error" + error)
       })
   }
 
