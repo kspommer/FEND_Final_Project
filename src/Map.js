@@ -9,15 +9,11 @@ class Map extends Component {
     return (
       <div style={{ height: '80vh', width: '100%' }}>
         {this.props.breweries.map(brewery => {
-          return <Marker lat={brewery.lat}
-            lng={brewery.lng}
-            text={brewery.name}
-            key={brewery.id}
-          />     
+          return 
+            console.log("here")             
         })}
       </div>
     );
   }
 }
-
-export default Map
+export default Map 
