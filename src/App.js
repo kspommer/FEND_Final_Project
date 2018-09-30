@@ -1,5 +1,6 @@
 // References:  
 // https://developers.google.com/maps/documentation/javascript/tutorial
+// https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
 // Axios:  https://github.com/axios/axios
 // https://developer.foursquare.com/docs/api
 // https://www.youtube.com/watch?v=dAhMIF0fNpo&t=551s
@@ -8,12 +9,14 @@
 
 
 import React, { Component } from 'react';
-import axios from 'axios'; 
 
 import './App.css';
-//import Marker from './Marker.js';
+//import addMarker from './addMarker.js';
 import Header from './Header.js'
 import Footer from './Footer.js'
+import SquareAPI from './API_Call.js'
+import MapRefactor from './Map.js'
+import Markers from './Markers.js'
 
 // my favorite microbreweries in Madison WI
 const breweryList = [
@@ -29,79 +32,48 @@ const breweryList = [
     
 class App extends Component {
 
-    state = {
-      map: '',
-      breweries: breweryList, 
-      breweryAPIdata: [],
-    }
-
-  // function to call to display the map (which calls the initMap function) 
-  componentDidMount() {
-    this.getBreweryData()
-    this.displayMap()
+  state = {
+    map: '',
+    breweries: breweryList,
+    breweryAPIdata: [],
   }
 
-  displayMap = () => {
-    // load the required script
-    mapScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyC91SKF-vOtspqbdEWrGpWEvYcrv1iQyuU&callback=initMap")
-    // convert to window option so JavaScript can find initMap
-    window.initMap = this.initMap
-  }
+  // get venue data 
+  //componentDidMount() {
+    //this.markers(this.state.breweries)
+    //this.getBreweryData()
+  //}
 
-  // modified from Google Maps documentation to arrow function
-  // https://developers.google.com/maps/documentation/javascript/tutorial
-  // need to initialize map
-  initMap = () => {
-    // need to use window. -global object of your HTML document
-    var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: 43.0731, lng: -89.4012},
-      zoom: 10,
-    })
-
-    var marker = new window.google.maps.Marker ({
-      position: {lat: 43.074376, lng: -89.380065},
-      title: "great dane"
-    })
-
-    marker.setMap(map);
-    console.log("marker!")
-  }
-
+  // loop through my favorite breweries to display markers
+  //markers = (breweries) => {
+    //breweries.map(brewery => {
+    // <addMarker brewery={brewery}/> attempt to call an external component
+      //var marker = new window.google.maps.Marker ({
+        //position: {lat: brewery.lat, lng: brewery.lng},
+        //title: brewery.name
+      //})
+      //marker.setMap(this.map);
+      //console.log("marker") // TESTING LOOP
+    //})
+  //}
 
   // function to call FourSquare to get data 
   getBreweryData = () => {
-    //let breweryLocationData = [];
-
-    // authentication and bas URL for FourSquare Get Details of a Venue API 
+    // my authentication and base URL for FourSquare Get Details of a Venue API 
     const client_id = "ZWIBO3U1HBUWEJEMMOOGJNRPI1NALRWDIMDNTNPIAKMSUSJO"
     const client_secret = "OYD1TLNRJVVBZTL31KX0TRWG2AINNBJ1GXKNJTXVXCLHKSNF"
     const v = "20180929"
     const baseURL = "https://api.foursquare.com/v2/venues/" 
 
-    // loop through breweries array to get venue details data
+    // loop through breweries array to get venue_id and call API 
     this.state.breweries.map(brewery => {
       let brewery_venue = brewery.venue_Id
       let endPoint = baseURL + brewery_venue
       let call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
 
-      //axios.get(call)
-        //.then(response => {
-          //this.setState ({
-            //breweryAPIdata: response.data.response // TESTING  -- NEED TO CHECK THIS 
-           //})
-        //})
-        // error if API call unsuccessful
-        //.catch(error => {
-          //console.log("Error" + error)
-        //})  
-
+      SquareAPI.getVenueDetails(call).then(results => console.log(results))
     })
   }
-
-  // onclick that calls InfoWindow component
-  // when API -- did you get or not 
-  // setContent --> infowindow.setContent()
-  // class="infowindow"
 
   render() {
     return (
@@ -111,30 +83,14 @@ class App extends Component {
         <div className="main-content">
           <div className="picklist"></div>  
           <div id="map">
+          <MapRefactor map={this.state.map} breweries={this.state.breweries}/>
           </div>
         </div>    
 
         <Footer/>
-
       </div>  
     )
   }
 }  
-
-function mapScript(googleMapsURL) { 
-  // locate first script tag (index = 0)
-  var firstScript = window.document.getElementsByTagName("script")[0]
-  // create </script> 
-  var newScript = window.document.createElement("script")
-  newScript.async = true
-  newScript.defer = true
-  newScript.src = googleMapsURL
-  // insert new script before all other scripts
-  // append new script before first script
-  // reference:  https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
-  // var insertedNode = parentNode.insertBefore(newNode, referenceNode)
-  firstScript.parentNode.insertBefore(newScript, firstScript)
-}
-
 
 export default App
