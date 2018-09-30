@@ -6,6 +6,10 @@ import Markers from './Markers.js'
 
 class MapRefactor extends Component {
 
+  state = { 
+    map: ''
+  }
+
   componentDidMount() {
     this.displayMap()
   }
@@ -35,13 +39,13 @@ class MapRefactor extends Component {
       center: {lat: 43.0731, lng: -89.4012}, // Madison, WI
       zoom: 10,
     })
-    this.setState(map) // I set map state here, so use this.state.map below instead of this.props.map
+    this.setState({map})
   }
 
   render() {
     return (
       <div style={{ height: '80vh', width: '100%'}}>
-        <Markers map={this.state.map} breweries={this.props.breweries}/>
+      {this.state.map && <Markers map={this.state.map} breweries={this.props.breweries}/>}
       </div>
     );
   }
