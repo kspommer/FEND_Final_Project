@@ -15,15 +15,14 @@ class Markers extends Component {
 
   // loop through my favorite breweries to display markers
   displayMarkers = () => {
-    //this.props.breweries.map(brewery => {
+    this.props.breweries.map(brewery => {
       var marker = new window.google.maps.Marker ({
-        position: {lat: 43.0731, lng: -89.4012},
+        position: {lat: brewery.lat, lng: brewery.lng},
         map: this.props.map,
-        title: "hello"
+        title: brewery.name,
       })
       marker.setMap(this.props.map);
-      console.log("marker") // TESTING LOOP
-    //})
+    })
   }
 
   render() {
