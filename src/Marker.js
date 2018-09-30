@@ -7,6 +7,9 @@
 
 import React, {Component} from 'react';
 
+  let position= ''
+  let title= ''
+
 class Marker extends Component {
   render() {
     // need to trigger this to happen each time map reloads
@@ -15,9 +18,15 @@ class Marker extends Component {
     // in the loop, call the 2nd API for some sort of data
     return (
       <div className="marker-icon"> 
-        {this.props.text}
+        var marker = window.google.maps.Marker({
+          position = {lat: 43.074376, lng: -89.380065},
+          title = "great dane"
+        })
+
+        marker.setMap(map);
+        console.log("marker!")
       </div>
-    )
+    )  
   }
 }
 
