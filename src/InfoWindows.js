@@ -36,13 +36,18 @@ class InfoWindow extends Component {
       let call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
 
       SquareAPI.getVenueDetails(call).then(results => {
-        console.log(results)
+        console.log(results) // TESTING - WORKING 
         const breweryData = results.response.venue;
-        console.log(breweryData);
-        let allBreweryData = allBreweryData.push({breweryData});
-        //return(allBreweryData)
+        console.log(breweryData); // this is an object // TESTING - WORKING 
+        return(breweryData)
       })
+
+      let allBreweryData = allBreweryData.push({breweryData}) // Add each new object to array - NOT WORKING :-()
+      //console.log(allBreweryData) // TESTING 
+
     })
+    // when done looping, setState so can use to render infoMarkers
+    // this.setState(allBreweryData) // NOT WORKING 
   }
 
   render() {
