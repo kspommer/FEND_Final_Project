@@ -8,46 +8,52 @@
 import React, {Component} from 'react';
 import SquareAPI from './API_Call.js'
 
-class InfoWindow extends Component {
+class InfoWindowData extends Component {
   constructor() {
     super();
 
     this.state = {
       breweryData: {},
-      allBreweryData: [],
     }
   }
 
   componentDidMount() {
-    this.displayInfoWindows()
+    this.getInfoWindowData()
   }
 
-  displayInfoWindows = () => {
+  //displayInfoWindow = () => {
+    //getData()
+    //console.log({breweryData})
+  //}
+
+  getInfoWindowData = () => {
     // my authentication and base URL for FourSquare Get Details of a Venue API 
     const client_id = "ZWIBO3U1HBUWEJEMMOOGJNRPI1NALRWDIMDNTNPIAKMSUSJO"
     const client_secret = "OYD1TLNRJVVBZTL31KX0TRWG2AINNBJ1GXKNJTXVXCLHKSNF"
     const v = "20180929"
     const baseURL = "https://api.foursquare.com/v2/venues/" 
 
-    // loop through breweries array to get venue_id and call API 
-    this.props.breweries.map(brewery => {
-      let brewery_venue = brewery.venue_Id
-      let endPoint = baseURL + brewery_venue
-      let call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
+    //let brewery_venue = brewery.venue_Id
+    let brewery_venue = "4fc813c4e4b0ab3d6544b5ee"
+    let endPoint = baseURL + brewery_venue
+    let call = endPoint + "?client_id=" + client_id + "&client_secret=" + client_secret + "&v=" + v
 
-      SquareAPI.getVenueDetails(call).then(results => {
-        console.log(results) // TESTING - WORKING 
-        const breweryData = results.response.venue;
-        console.log(breweryData); // this is an object // TESTING - WORKING 
-        return(breweryData)
-      })
+    SquareAPI.getVenueDetails(call).then(results => {
+      //console.log(results) // TESTING - WORKING 
+      const breweryData = results.response.venue;
+      console.log(breweryData); // this is an object // TESTING - WORKING 
 
-      let allBreweryData = allBreweryData.push({breweryData}) // Add each new object to array - NOT WORKING :-()
-      //console.log(allBreweryData) // TESTING 
+      this.setState(breweryData)
+
+      console.log(breweryData.name)
+      console.log(breweryData.location.formattedAddress[0])
+      console.log(breweryData.location.formattedAddress[1])
+      console.log(breweryData.url)
+      console.log(breweryData.contact.formattedPhone)
+
+      return(breweryData)
 
     })
-    // when done looping, setState so can use to render infoMarkers
-    // this.setState(allBreweryData) // NOT WORKING 
   }
 
   render() {
@@ -59,4 +65,4 @@ class InfoWindow extends Component {
 
 }
 
-export default InfoWindow
+export default InfoWindowData
