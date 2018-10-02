@@ -26,13 +26,19 @@ const breweryList = [
   //{venue_Id: "50de2528e4b04716420268ff", name: "Karben4 Brewing", lat: 43.126630, lng: -89.326250, serveFood: "full menu"},
   //{venue_Id: "4eb077438b813ed007ba567e", name: "Vintage Brewing Co.", lat: 43.050930, lng: -89.475190, serverFood: "full menu"}
   ];
-    
+
+
 class App extends Component {
 
   state = {
     breweries: breweryList,
-
   }
+
+  // function to handle click on a marker
+  //handleMarkerClick = (marker) => {
+    //marker.isOpen = true;
+    //this.setState(marker)
+  //}
 
   render() {
     return (
