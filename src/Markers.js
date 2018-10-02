@@ -20,8 +20,10 @@ class Markers extends Component {
         position: {lat: brewery.lat, lng: brewery.lng},
         map: this.props.map,
         title: brewery.name,
+        isOpen: "true",
       })
       marker.setMap(this.props.map);
+      this.setState(marker)
     })
   }
 
