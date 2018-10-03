@@ -4,7 +4,7 @@
 import React, {Component} from 'react';
 import Markers from './Markers.js'
 //import InfoWindowData from './InfoWindows.js'
-import InfoWindow from 'react'
+//import InfoWindow from 'react'
 
 class MapRefactor extends Component {
 
