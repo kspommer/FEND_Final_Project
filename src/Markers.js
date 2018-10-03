@@ -13,7 +13,8 @@ import InfoWindow from 'react'
 class Markers extends Component {
 
   state = {
-    allBreweryData: []
+    allBreweryData: [], 
+    markers: []
   }
 
   componentDidMount() {
@@ -38,23 +39,28 @@ class Markers extends Component {
       // make API call for data for info window
       SquareAPI.getVenueDetails(call).then(results => {
         const breweryData = results.response.venue; 
-
-        console.log(breweryData); // this is an object // TESTING - WORKING
-        console.log(breweryData.name)  // TESTING 
-        console.log(breweryData.location.formattedAddress[0]) // TESTING 
-        console.log(breweryData.location.formattedAddress[1]) // TESTING 
-        console.log(breweryData.url)  // TESTING 
-        console.log(breweryData.contact.formattedPhone)  // TESTING 
-      
-        // rule #1, don't directly assign value (e.g. no .push or .concat)
-        // instead reset state
-        // spread operator:  https://medium.com/@thejasonfile/using-the-spread-operator-in-react-setstate-c8a14fc51be1
-        this.setState({allBreweryData: [...this.state.allBreweryData, breweryData]})
-        console.log(this.allBreweryData) // TESTING 
-
+        // add data to this brewery object
+        const address1 = results.response.venue.location.formattedAddress[0];
+        const address2 = results.response.venue.location.formattedAddress[1];
+        const url = results.response.venue.url;
+        const phone = results.response.venue.contact.formattedPhone;
+        console.log(url) // TESTING 
+        console.log({brewery}) // TESTING 
       }).catch(error => console.log('FourSquare error:', error))
+
+      // add the four API data fields to each brewery object 
+
+
+
+
+
+      // set State
+      this.setState({breweries})
     })
   }
+
+  // display info window  -- does this go here or in Map? 
+  //let largeInfowindow = new window.google.maps.InfoWindow();
 
   // loop through my favorite breweries array to display marker for each
   // and add onclick action for each marker
@@ -65,34 +71,26 @@ class Markers extends Component {
         map: this.props.map,
         title: brewery.name,
         animation: window.google.maps.Animation.DROP,
-      })
-    
-      // dislay on the map
-      marker.setMap(this.props.map);
-      // set state
-      this.setState(marker);
-
-      // event listener for each marker
-      marker.addListener('click', function() {
-        infowindow.open(this.map, this.marker);
       });
-
+      // dislay marker on the map
+      marker.setMap(this.props.map);
+      // add marker to and setState of markers array 
+      this.setState({markers: [...this.state.markers, marker]})
+      // add event listener to each marker
+      //marker.addListener('click', function() {
+        //populateInfoWindow(this, newInfoWindow);
+      //});
+    })
       // create info window content string
       // NEEDS CSS FORMATTING
-      var infoContent = '<div id="content">' + 
-        '<h4 id="name">{this.breweryData.name}</h4></div>' + 
+      //var infoContent = '<div id="content">' + 
+        //'<h4 id="name">{this.breweryData.name}</h4></div>' + 
         //'<h4 id="street address">{this.breweryData.location.formattedAddress[0]})</h4>' + 
         //'<h4 id="city address">{this.breweryData.location.formattedAddress[1]}</h4>' + 
         //'<h4 id="phone">{this.breweryData.contact.formattedPhone}</h4>' + 
         //'<h4 id="url">{this.breweryData.url}</h4>' + 
-        '</div>'
-
-      // display info window  -- does this go here or in Map? 
-      var infowindow = new window.google.maps.InfoWindow({
-        content: infoContent
-      });
-    })
-
+        //'</div>'
+    //})
   }  
 
 
