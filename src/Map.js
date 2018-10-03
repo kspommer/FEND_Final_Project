@@ -1,12 +1,9 @@
-// Display Map with Google Maps React
-//reference:  https://www.npmjs.com/package/google-map-react
+// Display Map 
 
 import React, {Component} from 'react';
 import Markers from './Markers.js'
-//import InfoWindowData from './InfoWindows.js'
-//import InfoWindow from 'react'
 
-class MapRefactor extends Component {
+class Map extends Component {
 
   state = { 
     map: ''
@@ -16,6 +13,13 @@ class MapRefactor extends Component {
     this.displayMap()
   }
 
+  displayMap = () => {
+      // loads the required script
+    this.mapScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyC91SKF-vOtspqbdEWrGpWEvYcrv1iQyuU&callback=initMap")
+      // need to convert to window so JavaScript can find initMap
+    window.initMap = this.initMap
+  }
+
   mapScript(googleMapsURL) { 
     var firstScript = window.document.getElementsByTagName("script")[0]
     var newScript = window.document.createElement("script")
@@ -23,14 +27,7 @@ class MapRefactor extends Component {
     newScript.defer = true
     newScript.src = googleMapsURL
     firstScript.parentNode.insertBefore(newScript, firstScript)
-  }  
-
-  displayMap = () => {
-      // loads the required script
-    this.mapScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyC91SKF-vOtspqbdEWrGpWEvYcrv1iQyuU&callback=initMap")
-      // need to convert to window so JavaScript can find initMap
-    window.initMap = this.initMap
-  }
+  } 
 
   // Modified function from Google Maps documentation to arrow function
   // https://developers.google.com/maps/documentation/javascript/tutorial
@@ -53,4 +50,4 @@ class MapRefactor extends Component {
   }
 }
 
-export default MapRefactor 
+export default Map 
