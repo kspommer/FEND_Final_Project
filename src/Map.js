@@ -3,7 +3,7 @@
 
 import React, {Component} from 'react';
 import Markers from './Markers.js'
-import InfoWindowData from './InfoWindows.js'
+//import InfoWindowData from './InfoWindows.js'
 import InfoWindow from 'react'
 
 class MapRefactor extends Component {
@@ -48,7 +48,6 @@ class MapRefactor extends Component {
     return (
       <div style={{ height: '80vh', width: '100%'}}>
       {this.state.map && <Markers map={this.state.map} breweries={this.props.breweries}/>}
-      {this.state.map && <InfoWindowData map={this.state.map} breweries={this.props.breweries}/>}
       </div>
     );
   }
