@@ -13,7 +13,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Header from './Header.js'
 import Footer from './Footer.js'
-import MapRefactor from './Map.js'
+import Map from './Map.js'
 
 // my favorite microbreweries in Madison WI
 const breweryList = [
@@ -34,11 +34,8 @@ class App extends Component {
     breweries: breweryList,
   }
 
-  // function to handle click on a marker
-  //handleMarkerClick = (marker) => {
-    //marker.isOpen = true;
-    //this.setState(marker)
-  //}
+  // function to for marker click
+
 
   render() {
     return (
@@ -48,7 +45,7 @@ class App extends Component {
         <div className="main-content">
           <div className="picklist"></div>  
           <div id="map">
-          <MapRefactor map={this.state.map} breweries={this.state.breweries}/>
+          <Map map={this.state.map} breweries={this.state.breweries}/>
           </div>
         </div>    
 
