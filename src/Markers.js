@@ -46,18 +46,14 @@ class Markers extends Component {
         console.log(breweryData.url)  // TESTING 
         console.log(breweryData.contact.formattedPhone)  // TESTING 
       
-        //this.setState ({allBreweryData [this.state.allBreweryData,breweryData]})
-        //console.log(allBreweryData) // TESTING 
+        // rule #1, don't directly assign value (e.g. no .push or .concat)
+        // instead reset state
+        // spread operator:  https://medium.com/@thejasonfile/using-the-spread-operator-in-react-setstate-c8a14fc51be1
+        this.setState({allBreweryData: [...this.state.allBreweryData, breweryData]})
+        console.log(this.allBreweryData) // TESTING 
 
       }).catch(error => console.log('FourSquare error:', error))
-
-
-      //setState ({allBreweryData [... this state.allBreweryData,breweryData]})
-      //this.allBreweryData.push(breweryData)
-      //console.log(this.allBreweryData) // TESTING
-
     })
-    //this.setState(allBreweryData)
   }
 
   // loop through my favorite breweries array to display marker for each
@@ -78,11 +74,11 @@ class Markers extends Component {
 
       // event listener for each marker
       marker.addListener('click', function() {
-        infowindow.open(this.props.map, this.marker);
+        infowindow.open(this.map, this.marker);
       });
 
       // create info window content string
-      // NEEDS CSS FORMATTING - MORE WORK
+      // NEEDS CSS FORMATTING
       var infoContent = '<div id="content">' + 
         '<h4 id="name">{this.breweryData.name}</h4></div>' + 
         //'<h4 id="street address">{this.breweryData.location.formattedAddress[0]})</h4>' + 
@@ -91,13 +87,12 @@ class Markers extends Component {
         //'<h4 id="url">{this.breweryData.url}</h4>' + 
         '</div>'
 
-      // display info window
+      // display info window  -- does this go here or in Map? 
       var infowindow = new window.google.maps.InfoWindow({
         content: infoContent
       });
-
-
     })
+
   }  
 
 
