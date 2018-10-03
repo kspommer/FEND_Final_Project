@@ -34,9 +34,6 @@ class App extends Component {
     breweries: breweryList,
   }
 
-  // function to for marker click
-
-
   render() {
     return (
       <div className='App'>
