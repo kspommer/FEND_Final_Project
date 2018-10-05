@@ -1,53 +1,34 @@
 // Display Map 
+// https://tomchentw.github.io/react-google-maps
+// https://www.youtube.com/watch?v=Q0vzqlnWWZw&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=3
 
-import React, {Component} from 'react';
-import Markers from './Markers.js'
+import React, {Component} from 'react'
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+
+const MyMapComponent = withScriptjs(
+  withGoogleMap(props => (
+    <GoogleMap defaultZoom={12} defaultCenter={{lat: 43.0731, lng: -89.4012}}>
+      {props.isMarkerShown && (
+        <Marker position={{ lat: 43.0731, lng: -89.4012 }}/>
+      )}
+    </GoogleMap>
+  ))  
+);
 
 class Map extends Component {
 
-  state = { 
-    map: ''
-  }
-
-  componentDidMount() {
-    this.displayMap()
-  }
-
-  displayMap = () => {
-      // loads the required script
-    this.mapScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyC91SKF-vOtspqbdEWrGpWEvYcrv1iQyuU&callback=initMap")
-      // need to convert to window so JavaScript can find initMap
-    window.initMap = this.initMap
-  }
-
-  mapScript(googleMapsURL) { 
-    var firstScript = window.document.getElementsByTagName("script")[0]
-    var newScript = window.document.createElement("script")
-    newScript.async = true
-    newScript.defer = true
-    newScript.src = googleMapsURL
-    firstScript.parentNode.insertBefore(newScript, firstScript)
-  } 
-
-  // Modified function from Google Maps documentation to arrow function
-  // https://developers.google.com/maps/documentation/javascript/tutorial
-  // need to initialize map
-  initMap = () => {
-    // need to use window (global object of the HTML document)
-    var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: 43.0731, lng: -89.4012}, // Madison, WI
-      zoom: 10,
-    })
-    this.setState({map})
-  }
-
   render() {
     return (
-      <div style={{ height: '80vh', width: '100%'}}>
-      {this.state.map && <Markers map={this.state.map} breweries={this.props.breweries}/>}
-      </div>
-    );
-  }
+      <MyMapComponent
+        isMarkerShown
+        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB6N63ZIGH4b8Hgm9KhodA87Guuiem3C8Y"
+        loadingElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: `400px` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+      />
+    )
+  } 
 }
+
 
 export default Map 
