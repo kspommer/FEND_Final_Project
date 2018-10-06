@@ -3,7 +3,7 @@
 // https://www.youtube.com/watch?v=Q0vzqlnWWZw&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=3
 
 import React, {Component} from 'react'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 
 const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
@@ -16,8 +16,18 @@ const MyMapComponent = withScriptjs(
       {props.breweryMarkers && 
         props.breweryMarkers
         .filter(marker => marker.isVisible)
-        .map((marker, index) => (
-          <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} />
+        .map((marker, idx) => (
+          <Marker 
+            key={idx} 
+            position={{ lat: marker.lat, lng: marker.lng }}
+            onClick={() => props.learnMoreOnClick(marker)}
+          >
+            {marker.isOpen && (
+              <InfoWindow>
+                <p>Beer!</p>
+              </InfoWindow>
+            )}
+          </Marker>
       ))}
     </GoogleMap>
   ))  
