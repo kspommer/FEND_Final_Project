@@ -7,10 +7,18 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 
 const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
-    <GoogleMap defaultZoom={12} defaultCenter={{lat: 43.0731, lng: -89.4012}}>
-      {props.isMarkerShown && (
-        <Marker position={{ lat: 43.0731, lng: -89.4012 }}/>
-      )}
+    <GoogleMap 
+      defaultZoom={12} 
+      zoom={props.zoom}
+      defaultCenter={{lat: 43.0731, lng: -89.4012}}
+      //center={props.center}
+      >
+      {props.breweryMarkers && 
+        props.breweryMarkers
+        .filter(marker => marker.isVisible)
+        .map((marker, index) => (
+          <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} />
+      ))}
     </GoogleMap>
   ))  
 );
@@ -20,6 +28,7 @@ class Map extends Component {
   render() {
     return (
       <MyMapComponent
+        {...this.props}
         isMarkerShown
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB6N63ZIGH4b8Hgm9KhodA87Guuiem3C8Y"
         loadingElement={<div style={{ height: `100%` }} />}
