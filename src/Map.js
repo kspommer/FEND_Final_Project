@@ -13,10 +13,12 @@ const MyMapComponent = withScriptjs(
       defaultCenter={{lat: 43.0731, lng: -89.4012}}
       //center={props.center}
       >
-      {props.breweryMarkers && 
-        props.breweryMarkers
-        .filter(marker => marker.isVisible)
-        .map((marker, idx) => (
+
+      {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx) => {
+
+        const venueInfo = props.venues.find(venue => (venue.id === marker.markerId))
+
+        return (
           <Marker 
             key={idx} 
             position={{ lat: marker.lat, lng: marker.lng }}
@@ -24,11 +26,18 @@ const MyMapComponent = withScriptjs(
           >
             {marker.isOpen && (
               <InfoWindow>
-                <p>Beer!</p>
+                <React.Fragment> 
+                  <p>{venueInfo.name}</p>
+                  <p>{venueInfo.location.formattedAddress[0]}</p>
+                  <p>{venueInfo.location.formattedAddress[1]}</p>
+                  <p>{venueInfo.url}</p>
+                </React.Fragment>
               </InfoWindow>
             )}
           </Marker>
-      ))}
+        )  
+
+      })}
     </GoogleMap>
   ))  
 );
