@@ -32,13 +32,24 @@ class App extends Component {
   constructor() {
     super(); 
 
+    // set initial state
     this.state = {
       venues: [],
       breweryMarkers: [],
-      center: [],
       zoom: 10
     };
   }
+
+  // function to change state of variable on user click of a marker
+  learnMoreOnClick = (marker) => {
+    // change set of variable 
+    marker.isOpen = true; 
+    // reset state
+    // learning resource for .assign
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+    this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
+  }
+
 
   componentDidMount() {
     SquareAPI.search({
@@ -70,7 +81,7 @@ class App extends Component {
         <div className="main-content">
           <div className="picklist"></div>  
           <div id="map">
-            <Map {...this.state}/>
+            <Map {...this.state} learnMoreOnClick = {this.learnMoreOnClick}/>
           </div>
         </div>    
 
