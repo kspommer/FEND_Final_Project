@@ -60,15 +60,17 @@ class App extends Component {
     // learning resource for .assign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
     this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    // find the object (data) for a particular marker using venue.id
+    // find the right object (data) for a particular marker using venue.id
     const rightVenue = this.state.venues.find(venue => venue.id === marker.markerId)
     //console.log(rightVenue) // TESTING 
 
     // use markerId to get additional location data from FourSquare for that venue
     SquareAPI.getVenueDetails(marker.markerId).then(results => {
-      // merge new data with data from first API call 
-      const mergedVenueData = Object.assign(results.response.venue, rightVenue);
-      console.log(mergedVenueData) // TESTING 
+      // merge new data with the right data from first API call 
+      const mergedVenueData = Object.assign(rightVenue, results.response.venue);
+      //console.log(mergedVenueData) // TESTING 
+      this.setState({venues: Object.assign(this.state.venues, mergedVenueData)})
+      //console.log(this.state.venues) // TESTING 
     })
   }
 
