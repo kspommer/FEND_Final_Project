@@ -70,7 +70,7 @@ class App extends Component {
       const mergedVenueData = Object.assign(rightVenue, results.response.venue);
       //console.log(mergedVenueData) // TESTING 
       this.setState({venues: Object.assign(this.state.venues, mergedVenueData)})
-      //console.log(this.state.venues) // TESTING 
+      console.log(this.state.venues) // TESTING 
     })
   }
 
@@ -79,7 +79,7 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 2
+      limit: 10
     //}).then(results => console.log(results));
     }).then(results => {
       const { venues } = results.response;
