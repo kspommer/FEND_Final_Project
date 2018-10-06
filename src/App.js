@@ -14,6 +14,7 @@ import Footer from './Footer.js'
 import SquareAPI from './API_Call.js'
 import Map from './Map.js'
 
+// NOTE:  Shifted from a predefined llist of sites to with API search for "breweries"
 // my favorite microbreweries in Madison WI
 //const breweryList = [
   //{venue_Id: "4d686a320a25b60c55821790", name: "Great Dane Pub and Brewing Company", lat: 43.074376, lng: -89.380065, serveFood: "full menu"}, 
@@ -28,12 +29,37 @@ import Map from './Map.js'
 
 class App extends Component {
 
+  constructor() {
+    super(); 
+
+    this.state = {
+      venues: [],
+      breweryMarkers: [],
+      center: [],
+      zoom: 10
+    };
+  }
+
   componentDidMount() {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 5
-    }).then(results => console.log(results));
+      limit: 10
+    //}).then(results => console.log(results));
+    }).then(results => {
+      const { venues } = results.response;
+      //const { center } = results.response.geocode.feature.geometry;
+      const breweryMarkers = venues.map(venue => {
+        return {
+          lat: venue.location.lat,
+          lng: venue.location.lng, 
+          isOpen: false,  // open or closed
+          isVisible: true // render or not render
+        };
+      }); 
+      this.setState({ venues, breweryMarkers });
+      console.log(results); 
+    });
   }
 
   render() {
@@ -44,7 +70,7 @@ class App extends Component {
         <div className="main-content">
           <div className="picklist"></div>  
           <div id="map">
-            <Map/>
+            <Map {...this.state}/>
           </div>
         </div>    
 
