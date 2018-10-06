@@ -40,8 +40,20 @@ class App extends Component {
     };
   }
 
+  // function to close any open marker(s) when click on a marker
+  closeOpenMarkers = () => {
+    const breweryMarkers = this.state.breweryMarkers.map(marker => {
+      marker.isOpen = false; 
+      return marker; 
+    });
+  // reset state of breweryMarkers array to update the isOpen variables
+  this.setState({breweryMarkers: Object.assign(breweryMarkers, breweryMarkers)})
+  }
+
   // function to change state of variable on user click of a marker
   learnMoreOnClick = (marker) => {
+    // first close any open markers
+    this.closeOpenMarkers()
     // change set of variable 
     marker.isOpen = true; 
     // reset state
