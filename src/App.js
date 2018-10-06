@@ -60,8 +60,16 @@ class App extends Component {
     // learning resource for .assign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
     this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    // use markerId to get additional location data from FourSquare
-    SquareAPI.getVenueDetails(marker.markerId).then(results => console.log(results));
+    // find the object (data) for a particular marker using venue.id
+    const rightVenue = this.state.venues.find(venue => venue.id === marker.markerId)
+    //console.log(rightVenue) // TESTING 
+
+    // use markerId to get additional location data from FourSquare for that venue
+    SquareAPI.getVenueDetails(marker.markerId).then(results => {
+      // merge new data with data from first API call 
+      const mergedVenueData = Object.assign(results.response.venue, rightVenue);
+      console.log(mergedVenueData) // TESTING 
+    })
   }
 
   // asynch -- make sure that call is complete before try tto render()
@@ -69,7 +77,7 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 10
+      limit: 2
     //}).then(results => console.log(results));
     }).then(results => {
       const { venues } = results.response;
