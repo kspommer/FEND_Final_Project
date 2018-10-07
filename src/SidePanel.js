@@ -10,17 +10,17 @@ class SidePanel extends Component {
 
 	render() {
     	return (
-    		<div>
-
+    		<div className="sidepanel">
 	          	<input
 	          		className="search-brewery"
 	            	type="text"
-	            	placeholder="Filter breweries"
+	            	placeholder="What brewery?"
 	          	/>
-  	
 
-	    		<ol className = "breweryList">
-	    			<li className = "breweryName">Pommer Pub</li>
+	    		<ol className="breweryList">
+	    			{this.props.venues && this.props.venues.map(venue  =>
+			    		<li className="breweryName" key={venue.id}>{venue.name}</li>
+					)}
 	    		</ol>	
 
     		</div>
