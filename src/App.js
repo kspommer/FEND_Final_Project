@@ -13,6 +13,8 @@ import Header from './Header.js'
 import Footer from './Footer.js'
 import SquareAPI from './API_Call.js'
 import Map from './Map.js'
+import SidePanel from './SidePanel.js'
+
 
 // NOTE:  Shifted from a predefined llist of sites to with API search for "breweries"
 // my favorite microbreweries in Madison WI
@@ -79,7 +81,7 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 10
+      limit: 1
     //}).then(results => console.log(results));
     }).then(results => {
       const { venues } = results.response;
@@ -101,16 +103,15 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <Header/>
-        
-        <div className="main-content">
-          <div className="picklist"></div>  
-          <div id="map">
-            <Map {...this.state} learnMoreOnClick = {this.learnMoreOnClick}/>
-          </div>
-        </div>    
 
-        <Footer/>
+          <div className="main-content">
+
+            <SidePanel className="picklist"/>
+
+            <Map {...this.state} learnMoreOnClick = {this.learnMoreOnClick}/>
+
+          </div>
+
       </div>  
     )
   }         
