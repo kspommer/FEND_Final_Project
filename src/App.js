@@ -76,11 +76,14 @@ class App extends Component {
     })
   }
 
+  // function to open InfoWindow on click of brewery on sidepanel
   openInfoWindowOnClick = (venue) => {
-    console.log(venue) // TESTING 
+    const marker = this.state.breweryMarkers.find(marker => marker.markerId === venue.id);
+    this.learnMoreOnClick(marker);
+    // console.log(venue) // TESTING 
   }
 
-  // asynch -- make sure that call is complete before try tto render()
+  // asynch -- make sure that call is complete before try to render()
   componentDidMount() {
     SquareAPI.search({
       near: "Madison, WI", 
