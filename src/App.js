@@ -76,6 +76,10 @@ class App extends Component {
     })
   }
 
+  openInfoWindowOnClick = (venue) => {
+    console.log(venue) // TESTING 
+  }
+
   // asynch -- make sure that call is complete before try tto render()
   componentDidMount() {
     SquareAPI.search({
@@ -106,9 +110,15 @@ class App extends Component {
 
           <div className="main-content">
 
-            <SidePanel {...this.state} className="picklist"/>
+            <SidePanel 
+              {...this.state}
+              className="picklist"               
+              openInfoWindowOnClick = {this.openInfoWindowOnClick}/>
 
-            <Map {...this.state} learnMoreOnClick = {this.learnMoreOnClick}/>
+            <Map 
+              {...this.state} 
+              learnMoreOnClick = {this.learnMoreOnClick}
+            />
 
           </div>
 
