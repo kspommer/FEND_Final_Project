@@ -81,7 +81,7 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 1
+      limit: 2
     //}).then(results => console.log(results));
     }).then(results => {
       const { venues } = results.response;
@@ -106,7 +106,7 @@ class App extends Component {
 
           <div className="main-content">
 
-            <SidePanel className="picklist"/>
+            <SidePanel {...this.state} className="picklist"/>
 
             <Map {...this.state} learnMoreOnClick = {this.learnMoreOnClick}/>
 
