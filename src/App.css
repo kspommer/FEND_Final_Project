@@ -76,7 +76,8 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
   color: #3300FF;
   font-size: 8px;
   background: #E8E8E8;
-  border-left: solid 1px #3300FF
+  border-left: solid 1px #3300FF;
+  cursor: pointer;
 }
 
 
