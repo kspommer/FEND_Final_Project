@@ -19,7 +19,12 @@ class SidePanel extends Component {
 
 	    		<ol className="breweryList">
 	    			{this.props.venues && this.props.venues.map(venue  =>
-			    		<li className="breweryName" key={venue.id}>{venue.name}</li>
+			    		<li 
+			    			className="breweryName" 
+			    			key={venue.id}
+			    			onClick={() => this.props.openInfoWindowOnClick({...venue})}>
+			    			{venue.name} 
+			    		</li>
 					)}
 	    		</ol>	
 
