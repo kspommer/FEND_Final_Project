@@ -47,7 +47,7 @@ class Map extends Component {
 
   render() {
     return (
-      <MyMapComponent
+      <MyMapComponent 
         {...this.props}
         isMarkerShown
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB6N63ZIGH4b8Hgm9KhodA87Guuiem3C8Y"
