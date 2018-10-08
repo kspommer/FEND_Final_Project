@@ -18,7 +18,7 @@ class SidePanel extends Component {
 	          	<input
 	          		className="search-brewery"
 	            	type="text"
-	            	placeholder="What brewery?"
+	            	placeholder="Which brewery?"
 	          	/>
 
 	    		<ol className="breweryList">
