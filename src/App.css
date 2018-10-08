@@ -75,9 +75,11 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
   margin-bottom:  2px;
   color: #3300FF;
   font-size: 8px;
-  background: #E8E8E8;
+  background: #A0A0A0;
   border-left: solid 1px #3300FF;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 
