@@ -5,6 +5,7 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
   text-align: center;
   width: 100vw;
   height: 100vh;
+
 }
 
 .body {
@@ -14,7 +15,7 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
 .main-content{
   height: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: row nowrap;
 }
 
 .header {
@@ -59,10 +60,10 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
 }
 
 .search-brewery{
-  width: 80%;
+  width: 90%;
   height: 10px;
   font-size: 10px;
-  padding: 4px;
+  padding: 8px;
   text-align: center;
   border: solid 1px #3300FF;
 }
@@ -81,7 +82,7 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
   font-size: 8px;
   font-weight: bold;
   background: #B0B0B0;
-  border-left: solid 1px #3300FF;
+  border-left: solid 2px #3300FF;
   cursor: pointer;
   display: flex;
   align-items: center;
