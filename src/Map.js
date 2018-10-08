@@ -30,7 +30,7 @@ const MyMapComponent = withScriptjs(
                   <p>{venueInfo.name}</p>
                   <p>{venueInfo.location.formattedAddress[0]}</p>
                   <p>{venueInfo.location.formattedAddress[1]}</p>
-                  <p>{venueInfo.url}</p>
+                  <a href={venueInfo.url}>{venueInfo.url}</a>
                 </React.Fragment>
               </InfoWindow>
             )}
