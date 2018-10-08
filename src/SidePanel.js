@@ -8,6 +8,10 @@ import React, {Component} from 'react'
 
 class SidePanel extends Component {
 
+
+
+
+
 	render() {
     	return (
     		<div className="sidepanel">
@@ -23,7 +27,8 @@ class SidePanel extends Component {
 			    			className="breweryName" 
 			    			key={venue.id}
 			    			onClick={() => this.props.openInfoWindowOnClick({...venue})}>
-			    			{venue.name} 
+			    			<img src={venue.categories[0].icon.prefix + "32"+ venue.categories[0].icon.suffix} alt={venue.categories[0].name}/>
+			    			{venue.name}
 			    		</li>
 					)}
 	    		</ol>	
