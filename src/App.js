@@ -38,7 +38,11 @@ class App extends Component {
     this.state = {
       venues: [],
       breweryMarkers: [],
-      zoom: 10
+      zoom: 10,
+      // update state of markers based on filters
+      updateSuperState: obj => {
+        this.setState(obj);
+      }
     };
   }
 
@@ -88,7 +92,7 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 2
+      limit: 10
     //}).then(results => console.log(results));
     }).then(results => {
       const { venues } = results.response;
