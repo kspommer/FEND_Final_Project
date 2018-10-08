@@ -27,7 +27,7 @@ const MyMapComponent = withScriptjs(
             {marker.isOpen && (
               <InfoWindow>
                 <React.Fragment> 
-                  <p>{venueInfo.name}</p>
+                  <h3>{venueInfo.name}</h3>
                   <p>{venueInfo.location.formattedAddress[0]}</p>
                   <p>{venueInfo.location.formattedAddress[1]}</p>
                   <a href={venueInfo.url}>{venueInfo.url}</a>
@@ -36,7 +36,6 @@ const MyMapComponent = withScriptjs(
             )}
           </Marker>
         )  
-
       })}
     </GoogleMap>
   ))  
