@@ -23,6 +23,7 @@ class SidePanel extends Component {
 		console.log({filteredVenues});
 	}
 
+	// this went into an infinite loop -- need to understand getDerivedStateFromProps
 	//componentWillMount() {
 		//console.log(this.props.venues)
 		//const filteredVenues = this.props.venues; 
@@ -35,7 +36,7 @@ class SidePanel extends Component {
 		const filteredVenues = this.props.venues.filter(venue =>
 			venue.name.toLowerCase().includes(query.toLowerCase()),
 		);
-		console.log({filteredVenues}) // TESTING 
+		//console.log({filteredVenues}) // TESTING 
 		return filteredVenues;
 	};		
 
@@ -44,20 +45,17 @@ class SidePanel extends Component {
 		// setState to user-entered filter string
 		const query = event.target.value; 
 		this.setState({query})
-		console.log({query}) // TESTING - WORKS
+		//console.log({query}) // TESTING
 
 		// take no action if no user entry 
-		if (query === "") {
-			//const filteredVenues = this.props.venues;
-			//console.log({filteredVenues}); 	
+		if (query === "") { 	
 			return
 		}
-
 		// if user enters filter query... 
 		else {
 			// pass query to function to filter list
 			const filteredVenues = this.getFilteredList(query);
-			console.log({filteredVenues}) // TESTING 
+			//console.log({filteredVenues}) // TESTING 
 			this.setState({filteredVenues})
 
 			// map over the array of venues to find venue names which match query string
@@ -76,13 +74,12 @@ class SidePanel extends Component {
 			});
 		// call this function (in App.js) to update set of markers (changed isOpen attribute)
 		this.props.updateSuperState({markers});
-		//this.props.updateSuperState({filteredVenues});
 		}
 	}
 
 	render() {
 
-		this.setFilteredVenues(); 
+		const list = this.getFilteredList(this.state.query); 
 
     	return (
     		<div className="sidepanel">
@@ -92,7 +89,7 @@ class SidePanel extends Component {
 	          	onChange={this.filterOnUserEntry}
 	          	/>
 	    		<ol className="breweryList">
-	    			{this.state.filteredVenues && this.state.filteredVenues.map(venue  =>
+	    			{list && list.map(venue  =>
 			    		<li 
 			    			className="breweryName" 
 			    			key={venue.id}
