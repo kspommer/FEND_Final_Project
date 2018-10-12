@@ -9,8 +9,8 @@
 
 import React, { Component } from 'react';
 import './App.css';
-import Header from './Header.js'
-import Footer from './Footer.js'
+//import Header from './Header.js'
+//import Footer from './Footer.js'
 import SquareAPI from './API_Call.js'
 import Map from './Map.js'
 import SidePanel from './SidePanel.js'
@@ -92,7 +92,7 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 5
+      limit: 10
     //}).then(results => console.log(results));
     }).then(results => {
       const { venues } = results.response;
