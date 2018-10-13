@@ -157,7 +157,10 @@ class App extends Component {
         };
       }); 
       this.setState({ venues, breweryMarkers });
-      console.log(results); 
+      // set initial filteredVenues to venues
+      this.setState({filteredVenues: venues})
+
+      console.log(results); //TESTING 
     });
   }
 
