@@ -40,8 +40,84 @@ class App extends Component {
       query: "", 
       filteredVenues: [],
       breweryMarkers: [],
+      filteredBreweryMarkers: [],
       zoom: 10,
     };
+  }
+
+  componentDidMount() {
+  // asynch -- make sure that call is complete before try to render()
+    SquareAPI.search({
+      near: "Madison, WI", 
+      query: "brewery", 
+      limit: 3
+    //}).then(results => console.log(results));
+    }).then(results => {
+      const { venues } = results.response;
+      //const { center } = results.response.geocode.feature.geometry;
+      const breweryMarkers = venues.map(venue => {
+        return {
+          lat: venue.location.lat,
+          lng: venue.location.lng, 
+          isOpen: false,  // open or closed
+          isVisible: true, // render or not render
+          id: venue.id
+        };
+      });
+      this.setState({venues});
+      this.setState({breweryMarkers});
+      // set initial filteredVenues to venues
+      this.setState({filteredVenues: venues});
+      this.setState({filteredBreweryMarkers: breweryMarkers})
+
+      console.log(this.state.venues) // TESTING - OK
+      console.log(this.state.breweryMarkers) // TESTING - OK
+      console.log(results); //TESTING 
+    });
+  }
+
+// function to close any open marker(s) when click on a marker
+  closeOpenMarkers = () => {
+    const breweryMarkers = this.state.breweryMarkers.map(marker => {
+      marker.isOpen = false; 
+      return marker; 
+    });
+  // reset state of breweryMarkers array to update the isOpen variables
+  this.setState({breweryMarkers: Object.assign(breweryMarkers, breweryMarkers)})
+  }
+
+  // function to change state of variable on user click of a marker
+  learnMoreOnClick = (marker) => {
+    // first close any open markers
+    this.closeOpenMarkers()
+    // change set of variable 
+    marker.isOpen = true; 
+    // reset state
+    // learning resource for .assign
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+    this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
+    console.log(this.state.breweryMarkers) // TESTING
+    // find the right object (data) for a particular marker using venue.id
+    const rightVenue = this.state.venues.find(venue => venue.id === marker.id)
+    //console.log(rightVenue) // TESTING 
+    // use markerId to get additional location data from FourSquare for that venue
+    SquareAPI.getVenueDetails(marker.id).then(results => {
+      // merge new data with the right data from first API call 
+      const mergedVenueData = Object.assign(rightVenue, results.response.venue);
+      this.setState({venues: Object.assign(this.state.venues, mergedVenueData)})
+      console.log(this.state.venues) // TESTING 
+    })
+  }
+
+  // function to open InfoWindow on click of brewery on sidepanel
+  openInfoWindowOnClick = (venue) => {
+    console.log(venue) // OK
+
+    // find the right marker for this venue
+    const marker = this.state.breweryMarkers.find(marker => marker.id === venue.id)
+    console.log(marker) // TESTING -- GETTING UNDEFINED
+
+    //learnMoreOnClick(marker)
   }
 
   // this function is used to filter the venue list displayed based on user input
@@ -82,86 +158,18 @@ class App extends Component {
         const match = venue.name.toLowerCase().includes(event.target.value.toLowerCase());
         // if a query match, id which marker 
         const marker = this.state.breweryMarkers.find(marker => marker.markerId === venue.id);
-        // change marker's isOpen attribute based on the query match/not a match
+        // change marker's isVisible attribute based on the query match/not a match
         if(match) {
-          marker.isOpen = true;
+          marker.isVisible = true;
         }
         else {
-          marker.isOpen = false;
+          marker.isVisible = false;
         }
         return marker;
       });
     // reset the state of the markers
     this.setState({markers});
     }
-  }
-
-  // function to close any open marker(s) when click on a marker
-  closeOpenMarkers = () => {
-    const breweryMarkers = this.state.breweryMarkers.map(marker => {
-      marker.isOpen = false; 
-      return marker; 
-    });
-  // reset state of breweryMarkers array to update the isOpen variables
-  this.setState({breweryMarkers: Object.assign(breweryMarkers, breweryMarkers)})
-  }
-
-
-  // function to change state of variable on user click of a marker
-  learnMoreOnClick = (marker) => {
-    // first close any open markers
-    this.closeOpenMarkers()
-    // change set of variable 
-    marker.isOpen = true; 
-    // reset state
-    // learning resource for .assign
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-    this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    // find the right object (data) for a particular marker using venue.id
-    const rightVenue = this.state.venues.find(venue => venue.id === marker.markerId)
-    //console.log(rightVenue) // TESTING 
-    // use markerId to get additional location data from FourSquare for that venue
-    SquareAPI.getVenueDetails(marker.markerId).then(results => {
-      // merge new data with the right data from first API call 
-      const mergedVenueData = Object.assign(rightVenue, results.response.venue);
-      //console.log(mergedVenueData) // TESTING 
-      this.setState({venues: Object.assign(this.state.venues, mergedVenueData)})
-      console.log(this.state.venues) // TESTING 
-    })
-  }
-
-  // function to open InfoWindow on click of brewery on sidepanel
-  openInfoWindowOnClick = (venue) => {
-    const marker = this.state.breweryMarkers.find(marker => marker.markerId === venue.id);
-    this.learnMoreOnClick(marker);
-    // console.log(venue) // TESTING 
-  }
-
-  componentDidMount() {
-  // asynch -- make sure that call is complete before try to render()
-    SquareAPI.search({
-      near: "Madison, WI", 
-      query: "brewery", 
-      limit: 10
-    //}).then(results => console.log(results));
-    }).then(results => {
-      const { venues } = results.response;
-      //const { center } = results.response.geocode.feature.geometry;
-      const breweryMarkers = venues.map(venue => {
-        return {
-          lat: venue.location.lat,
-          lng: venue.location.lng, 
-          isOpen: false,  // open or closed
-          isVisible: true, // render or not render
-          markerId: venue.id
-        };
-      }); 
-      this.setState({ venues, breweryMarkers });
-      // set initial filteredVenues to venues
-      this.setState({filteredVenues: venues})
-
-      console.log(results); //TESTING 
-    });
   }
 
   render() {
@@ -186,6 +194,6 @@ class App extends Component {
       </div>  
     )
   }         
-}  
+}
 
 export default App
