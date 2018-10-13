@@ -1,4 +1,4 @@
- // References
+// References
  // Project 6:  input box / filter
  // Forrest video 6:  https://www.youtube.com/watch?v=lDVaZY0aG2w&t=87s
  // MDN .includes: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
@@ -51,4 +51,4 @@ class SidePanel extends Component {
   	}
 }
 
- export default SidePanel
+export default SidePanel
