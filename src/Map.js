@@ -10,14 +10,10 @@ const MyMapComponent = withScriptjs(
     <GoogleMap 
       defaultZoom={12} 
       zoom={props.zoom}
-      defaultCenter={{lat: 43.0731, lng: -89.4012}}
-      //center={props.center}
-      >
+      defaultCenter={{lat: 43.0731, lng: -89.4012}}>
 
       {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx) => {
-
-        const venueInfo = props.venues.find(venue => (venue.id === marker.markerId))
-
+        const venueInfo = props.filteredVenues.find(venue => (venue.id === marker.id))
         return (
           <Marker 
             key={idx} 
@@ -43,6 +39,11 @@ const MyMapComponent = withScriptjs(
 
 class Map extends Component {
 
+  // when props change, get the new data and trigger render update
+  componentWillReceiveProps = (props) => {
+    this.props = props
+  }
+
   render() {
     return (
       <MyMapComponent 
@@ -54,7 +55,7 @@ class Map extends Component {
         mapElement={<div style={{ height: `100%` }} />}
       />
     )
-  } 
+  }
 }
 
 
