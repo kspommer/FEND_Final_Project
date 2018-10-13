@@ -37,13 +37,63 @@ class App extends Component {
     // set initial state
     this.state = {
       venues: [],
+      query: "", 
+      filteredVenues: [],
       breweryMarkers: [],
       zoom: 10,
-      // update state based on filters
-      updateSuperState: obj => {
-        this.setState(obj);
-      }
     };
+  }
+
+  // this function is used to filter the venue list displayed based on user input
+  getFilteredList = (query) => {
+    // when user enters input, filter venues array and return reduced array
+    const filteredVenues = this.state.venues.filter(venue =>
+      venue.name.toLowerCase().includes(query.toLowerCase()),
+    );
+    console.log({filteredVenues}) // TESTING 
+    return filteredVenues;
+  };
+
+
+  // function to filter markers on user entry in input box
+  filterOnUserEntry = event => {
+    // setState to user-entered filter string
+    const query = event.target.value; 
+    this.setState({query})
+    console.log({query}) // TESTING 
+
+    // take no action if no user entry 
+    if (query === "") { 
+      const filteredVenues = this.state.venues;
+      console.log({filteredVenues}) // TESTING 
+      this.setState({filteredVenues});
+      return filteredVenues;
+    }
+
+    // if user enters filter query... 
+    else {
+      // pass query to function to filter list
+      const filteredVenues = this.getFilteredList(query);
+      console.log({filteredVenues}) // TESTING 
+      this.setState({filteredVenues})
+
+      // map over the array of filteredVenues to find venue names which match query string
+      const markers = this.state.filteredVenues.map(venue => {
+        const match = venue.name.toLowerCase().includes(event.target.value.toLowerCase());
+        // if a query match, id which marker 
+        const marker = this.state.breweryMarkers.find(marker => marker.markerId === venue.id);
+        // change marker's isOpen attribute based on the query match/not a match
+        if(match) {
+          marker.isOpen = true;
+        }
+        else {
+          marker.isOpen = false;
+        }
+        return marker;
+      });
+    // reset the state of the markers
+    this.setState({markers});
+    }
   }
 
   // function to close any open marker(s) when click on a marker
@@ -55,6 +105,7 @@ class App extends Component {
   // reset state of breweryMarkers array to update the isOpen variables
   this.setState({breweryMarkers: Object.assign(breweryMarkers, breweryMarkers)})
   }
+
 
   // function to change state of variable on user click of a marker
   learnMoreOnClick = (marker) => {
@@ -69,7 +120,6 @@ class App extends Component {
     // find the right object (data) for a particular marker using venue.id
     const rightVenue = this.state.venues.find(venue => venue.id === marker.markerId)
     //console.log(rightVenue) // TESTING 
-
     // use markerId to get additional location data from FourSquare for that venue
     SquareAPI.getVenueDetails(marker.markerId).then(results => {
       // merge new data with the right data from first API call 
@@ -87,8 +137,8 @@ class App extends Component {
     // console.log(venue) // TESTING 
   }
 
-  // asynch -- make sure that call is complete before try to render()
   componentDidMount() {
+  // asynch -- make sure that call is complete before try to render()
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
@@ -118,14 +168,15 @@ class App extends Component {
           <div className="main-content">
 
             <SidePanel 
-              {...this.state}
+              {...this.state} /// passes all state data
               className="picklist"               
-              openInfoWindowOnClick = {this.openInfoWindowOnClick}/>
+              openInfoWindowOnClick = {this.openInfoWindowOnClick}
+              filterOnUserEntry = {this.filterOnUserEntry}/>
 
             <Map 
-              {...this.state} 
+              {...this.state} // passes all state data
               learnMoreOnClick = {this.learnMoreOnClick}
-            />
+              filterOnUserEntry = {this.filterOnUserEntry}/>
 
           </div>
 
