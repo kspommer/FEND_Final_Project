@@ -41,7 +41,6 @@ const MyMapComponent = withScriptjs(
   ))  
 );
 
-
 class Map extends Component {
 
   render() {
