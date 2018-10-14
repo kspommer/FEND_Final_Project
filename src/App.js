@@ -69,10 +69,15 @@ class App extends Component {
       this.setState({filteredVenues: venues});
       this.setState({filteredBreweryMarkers: breweryMarkers})
 
-      console.log(this.state.venues) // TESTING - OK
-      console.log(this.state.breweryMarkers) // TESTING - OK
-      console.log(results); //TESTING 
-    });
+      //console.log(this.state.venues) // TESTING - OK
+      //console.log(this.state.breweryMarkers) // TESTING - OK
+      //console.log(results); //TESTING 
+    })
+    // added error handling; console.log any error message
+    .catch(error => {
+      this.setState({error})
+      console.log(this.state.error)
+    })
   }
 
 // function to close any open marker(s) when click on a marker
@@ -90,8 +95,7 @@ class App extends Component {
     // first close any open markers
     this.closeOpenMarkers()
     // change set of variable 
-    marker.isOpen = true; 
-    // marker.setAnimation(window.google.maps.Animation.BOUNCE);
+    marker.isOpen = true;
     // reset state
     // learning resource for .assign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -106,6 +110,11 @@ class App extends Component {
       const mergedVenueData = Object.assign(rightVenue, results.response.venue);
       this.setState({venues: Object.assign(this.state.venues, mergedVenueData)})
       //console.log(this.state.venues) // TESTING 
+    })    
+    // added error handling; console.log any error message
+    .catch(error => {
+      this.setState({error})
+      console.log(this.state.error)
     })
   }
 
