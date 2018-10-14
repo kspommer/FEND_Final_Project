@@ -92,11 +92,12 @@ class App extends Component {
     this.closeOpenMarkers()
     // change set of variable 
     marker.isOpen = true; 
+    //marker.setAnimation(window.google.maps.Animation.BOUNCE);
     // reset state
     // learning resource for .assign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
     this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    console.log(this.state.breweryMarkers) // TESTING
+    //console.log(this.state.breweryMarkers) // TESTING
     // find the right object (data) for a particular marker using venue.id
     const rightVenue = this.state.venues.find(venue => venue.id === marker.id)
     //console.log(rightVenue) // TESTING 
@@ -105,26 +106,32 @@ class App extends Component {
       // merge new data with the right data from first API call 
       const mergedVenueData = Object.assign(rightVenue, results.response.venue);
       this.setState({venues: Object.assign(this.state.venues, mergedVenueData)})
-      console.log(this.state.venues) // TESTING 
+      //console.log(this.state.venues) // TESTING 
     })
   }
 
   // function to open InfoWindow on click of brewery on sidepanel
   openInfoWindowOnClick = (venue) => {
-    console.log(venue) // OK
-
-    // find the right marker for this venue
-    const marker = this.state.breweryMarkers.find(marker => marker.id === venue.id)
-    console.log(marker) // TESTING -- GETTING UNDEFINED
-
-    //learnMoreOnClick(marker)
+    const markers = this.state.breweryMarkers;
+    //console.log(venue) // TESTING 
+    //console.log(markers) // TESTING
+    //console.log(markers[0].id) // TESTING
+    //console.log(venue.venue.id) // TESTING 
+    // loop to find the right marker for this venue
+    for (var i=0; i<markers.length; i++) {
+      if (markers[i].id === venue.venue.id) {
+        const marker = markers[i]; 
+        this.learnMoreOnClick(marker);
+        //console.log(marker); // TESTING
+      }
+    }
   }
 
   // this function is used to filter the venue list displayed based on user input
   getFilteredList = (query) => {
     // when user enters input, filter venues array and return reduced array
     const filteredVenues = this.state.venues.filter(venue =>
-      venue.name.toLowerCase().includes(query.toLowerCase()),
+      venue.name.toLowerCase().includes(query.toLowerCase())
     );
     console.log({filteredVenues}) // TESTING 
     return filteredVenues;
