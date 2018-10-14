@@ -1,9 +1,17 @@
 // Display Map 
 // https://tomchentw.github.io/react-google-maps
 // https://www.youtube.com/watch?v=Q0vzqlnWWZw&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=3
+// marker animations:   https://developers.google.com/maps/documentation/javascript/examples/marker-animations
+
+/* global google */
 
 import React, {Component} from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
+
+// tried to use a custom beer image for marker pin
+//var icons = { 
+  //beerIcon: './beer-1538754_640'
+//}
 
 const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
@@ -12,13 +20,16 @@ const MyMapComponent = withScriptjs(
       zoom={props.zoom}
       defaultCenter={{lat: 43.0731, lng: -89.4012}}>
 
-      {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx) => {
+      {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx, arr) => {
         const venueInfo = props.filteredVenues.find(venue => (venue.id === marker.id))
         return (
           <Marker 
             key={idx} 
+            id="markerPin"
+            //icon={icons.beerIcon}
             position={{ lat: marker.lat, lng: marker.lng }}
             onClick={() => props.learnMoreOnClick(marker)}
+            animation={arr.length === 1 ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP}
           >
             {marker.isOpen && (
               <InfoWindow>
