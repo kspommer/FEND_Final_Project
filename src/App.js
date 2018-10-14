@@ -50,11 +50,10 @@ class App extends Component {
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 3
-    //}).then(results => console.log(results));
+      limit: 10
+    //}).then(results => console.log(results)); // TESTING
     }).then(results => {
       const { venues } = results.response;
-      //const { center } = results.response.geocode.feature.geometry;
       const breweryMarkers = venues.map(venue => {
         return {
           lat: venue.location.lat,
@@ -92,7 +91,7 @@ class App extends Component {
     this.closeOpenMarkers()
     // change set of variable 
     marker.isOpen = true; 
-    //marker.setAnimation(window.google.maps.Animation.BOUNCE);
+    // marker.setAnimation(window.google.maps.Animation.BOUNCE);
     // reset state
     // learning resource for .assign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -127,16 +126,6 @@ class App extends Component {
     }
   }
 
-  // this function is used to filter the venue list displayed based on user input
-  getFilteredList = (query) => {
-    // when user enters input, filter venues array and return reduced array
-    const filteredVenues = this.state.venues.filter(venue =>
-      venue.name.toLowerCase().includes(query.toLowerCase())
-    );
-    console.log({filteredVenues}) // TESTING 
-    return filteredVenues;
-  };
-
 
   // function to filter markers on user entry in input box
   filterOnUserEntry = event => {
@@ -145,39 +134,68 @@ class App extends Component {
     this.setState({query})
     console.log({query}) // TESTING 
 
+    const filteredVenues = this.getFilteredVenues(query); 
+    this.setState({filteredVenues});
+
+    const filteredBreweryMarkers = this.updateBreweryMarkers(query); 
+    this.setState({filteredBreweryMarkers});
+  } 
+
+  // this function is used to filter the venue list displayed based on user input
+  getFilteredList = (query) => {
+    // when user enters input, filter venues array and return reduced array
+    const filteredVenues = this.state.venues.filter(venue =>
+      venue.name.toLowerCase().includes(query.toLowerCase())
+    );
+    //console.log({filteredVenues}) // TESTING 
+    return filteredVenues;
+  };
+
+  getFilteredVenues = (query) => {
     // take no action if no user entry 
     if (query === "") { 
       const filteredVenues = this.state.venues;
-      console.log({filteredVenues}) // TESTING 
+      console.log({filteredVenues}); // TESTING
       this.setState({filteredVenues});
       return filteredVenues;
     }
-
     // if user enters filter query... 
     else {
       // pass query to function to filter list
       const filteredVenues = this.getFilteredList(query);
-      console.log({filteredVenues}) // TESTING 
-      this.setState({filteredVenues})
-
-      // map over the array of filteredVenues to find venue names which match query string
-      const markers = this.state.filteredVenues.map(venue => {
-        const match = venue.name.toLowerCase().includes(event.target.value.toLowerCase());
-        // if a query match, id which marker 
-        const marker = this.state.breweryMarkers.find(marker => marker.markerId === venue.id);
-        // change marker's isVisible attribute based on the query match/not a match
-        if(match) {
-          marker.isVisible = true;
-        }
-        else {
-          marker.isVisible = false;
-        }
-        return marker;
-      });
-    // reset the state of the markers
-    this.setState({markers});
+      console.log({filteredVenues}); // TESTING 
+      this.setState({filteredVenues});
+      return filteredVenues;
     }
   }
+
+  updateBreweryMarkers = (query) => {
+    // take no action if no user entry 
+    if (query === "") { 
+      const breweryMarkers = this.state.breweryMarkers;
+      // console.log({breweryMarkers});  // TESTING
+    }
+    // if user enters filter query, update the isVisible attribute
+    else {
+      // map over the array of filteredVenues to find venue names which match query string
+      const breweryMarkers = this.state.venues.map(venue => {
+        const match = venue.name.toLowerCase().includes(query.toLowerCase());
+          // if a query match, id which marker 
+          const marker = this.state.breweryMarkers.find(marker => marker.id === venue.id);
+          // change marker's isVisible attribute based on the query match/not a match
+          if (match) {
+            marker.isVisible = true;
+          }
+          else {
+            marker.isVisible = false;
+          }
+          return marker;
+      });
+      this.setState({breweryMarkers})
+      console.log({breweryMarkers});  // TESTING  
+    }
+  }
+
 
   render() {
     return (
