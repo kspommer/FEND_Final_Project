@@ -6,8 +6,9 @@
 // https://www.youtube.com/watch?v=Dj5hzKBxCBI
 // https://www.youtube.com/watch?v=dAhMIF0fNpo
 
+/* global google */
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import './App.css';
 //import Header from './Header.js'
 //import Footer from './Footer.js'
@@ -86,16 +87,23 @@ class App extends Component {
       marker.isOpen = false; 
       return marker; 
     });
-  // reset state of breweryMarkers array to update the isOpen variables
+  // reset state of breweryMarkers array to update the isOpen attribute
   this.setState({breweryMarkers: Object.assign(breweryMarkers, breweryMarkers)})
+  }
+
+  animateMarkerOnClick (marker) {
+    console.log("dog")
+    animation={google.maps.Animation.BOUNCE};
+    return marker;
   }
 
   // function to change state of variable on user click of a marker
   learnMoreOnClick = (marker) => {
     // first close any open markers
     this.closeOpenMarkers()
-    // change set of variable 
+    // change set of aatributes 
     marker.isOpen = true;
+    this.animateMarkerOnClick(marker);
     // reset state
     // learning resource for .assign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
