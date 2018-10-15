@@ -61,7 +61,8 @@ class App extends Component {
           lng: venue.location.lng, 
           isOpen: false,  // open or closed
           isVisible: true, // render or not render
-          id: venue.id
+          id: venue.id,
+          animation: null,
         };
       });
       this.setState({venues});
@@ -81,38 +82,52 @@ class App extends Component {
     })
   }
 
-// function to close any open marker(s) when click on a marker
+// function to close any open marker(s) and reset animation when click on a marker
   closeOpenMarkers = () => {
     const breweryMarkers = this.state.breweryMarkers.map(marker => {
       marker.isOpen = false; 
+      // reset animation for all pins to null 
+      marker.animation = null;
       return marker; 
     });
-  // reset state of breweryMarkers array to update the isOpen attribute
+  // reset state of breweryMarkers array to update the attributes
   this.setState({breweryMarkers: Object.assign(breweryMarkers, breweryMarkers)})
   }
 
-  animateMarkerOnClick (marker) {
-    console.log("dog")
-    animation={google.maps.Animation.BOUNCE};
-    return marker;
+  // function to open InfoWindow on sidepanel venue
+  openInfoWindowOnVenueClick = (venue) => {
+    // close all windows
+    this.closeOpenMarkers();
+
+    const markers = this.state.breweryMarkers;
+    //console.log(venue) // TESTING 
+    //console.log(markers) // TESTING
+    //console.log(markers[0].id) // TESTING
+    //console.log(venue.venue.id) // TESTING 
+    // loop to find the right marker for this venue
+    for (var i=0; i<markers.length; i++) {
+      if (markers[i].id === venue.venue.id) {
+        const marker = markers[i]; 
+
+        // reset attributes on clicked pin
+        marker.isOpen = true;
+        marker.animation = google.maps.Animation.BOUNCE;
+        // reset state
+        this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
+        //console.log(this.state.breweryMarkers) // TESTING
+
+        this.openInfoWindowOnClick(marker);
+        //console.log(this); // TESTING
+      }
+    }
   }
 
   // function to change state of variable on user click of a marker
-  learnMoreOnClick = (marker) => {
-    // first close any open markers
-    this.closeOpenMarkers()
-    // change set of aatributes 
-    marker.isOpen = true;
-    this.animateMarkerOnClick(marker);
-    // reset state
-    // learning resource for .assign
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-    this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    //console.log(this.state.breweryMarkers) // TESTING
-    // find the right object (data) for a particular marker using venue.id
+  openInfoWindowOnClick = (marker) => {
+    // find the right venue object (data) for a particular marker using venue.id
     const rightVenue = this.state.venues.find(venue => venue.id === marker.id)
     //console.log(rightVenue) // TESTING 
-    // use markerId to get additional location data from FourSquare for that venue
+    // use marker id to get additional location data from FourSquare for that venue
     SquareAPI.getVenueDetails(marker.id).then(results => {
       // merge new data with the right data from first API call 
       const mergedVenueData = Object.assign(rightVenue, results.response.venue);
@@ -127,20 +142,18 @@ class App extends Component {
   }
 
   // function to open InfoWindow on click of brewery on sidepanel
-  openInfoWindowOnClick = (venue) => {
-    const markers = this.state.breweryMarkers;
-    //console.log(venue) // TESTING 
-    //console.log(markers) // TESTING
-    //console.log(markers[0].id) // TESTING
-    //console.log(venue.venue.id) // TESTING 
-    // loop to find the right marker for this venue
-    for (var i=0; i<markers.length; i++) {
-      if (markers[i].id === venue.venue.id) {
-        const marker = markers[i]; 
-        this.learnMoreOnClick(marker);
-        //console.log(marker); // TESTING
-      }
-    }
+  learnMoreOnClick = (marker) => {
+    // first close any open markers and reset animation for all markers
+    this.closeOpenMarkers()
+    // reset attributes on clicked pin
+    marker.isOpen = true;
+    marker.animation = google.maps.Animation.BOUNCE;
+    // reset state
+    this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
+    console.log(this.state.breweryMarkers) // TESTING
+    
+    // call infowindow function 
+    this.openInfoWindowOnClick(marker);
   }
 
 
@@ -223,7 +236,7 @@ class App extends Component {
             <SidePanel 
               {...this.state} /// passes all state data
               className="picklist"               
-              openInfoWindowOnClick = {this.openInfoWindowOnClick}
+              openInfoWindowOnVenueClick = {this.openInfoWindowOnVenueClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
 
             <Map 
