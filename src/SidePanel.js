@@ -39,7 +39,7 @@ class SidePanel extends Component {
 			    		<li 
 			    			className="breweryName" 
 			    			key={venue.id}
-			    			onClick={() => this.props.openInfoWindowOnClick({venue})}>
+			    			onClick={() => this.props.openInfoWindowOnVenueClick({venue})}>
 			    			<img src={venue.categories[0].icon.prefix + "32"+ venue.categories[0].icon.suffix} alt={venue.categories[0].name}/>
 			    			{venue.name}
 			    		</li>
