@@ -29,7 +29,8 @@ const MyMapComponent = withScriptjs(
             //icon={icons.beerIcon}
             position={{ lat: marker.lat, lng: marker.lng }}
             onClick={() => props.learnMoreOnClick(marker)}
-            animation={arr.length === 1 ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP}
+            animation={google.maps.Animation.DROP}
+            //animation={arr.length === 1 ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP}
           >
             {marker.isOpen && (
               <InfoWindow>
