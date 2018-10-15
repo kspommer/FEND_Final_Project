@@ -3,7 +3,7 @@
 // https://www.youtube.com/watch?v=Q0vzqlnWWZw&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=3
 // marker animations:   https://developers.google.com/maps/documentation/javascript/examples/marker-animations
 
-/* global google */
+///* global google */
 
 import React, {Component} from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
@@ -20,7 +20,7 @@ const MyMapComponent = withScriptjs(
       zoom={props.zoom}
       defaultCenter={{lat: 43.0731, lng: -89.4012}}>
 
-      {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx, arr) => {
+      {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx) => {
         const venueInfo = props.filteredVenues.find(venue => (venue.id === marker.id))
         return (
           <Marker 
@@ -28,9 +28,8 @@ const MyMapComponent = withScriptjs(
             id="markerPin"
             //icon={icons.beerIcon}
             position={{ lat: marker.lat, lng: marker.lng }}
+            //animation={google.maps.Animation.DROP}
             onClick={() => props.learnMoreOnClick(marker)}
-            animation={google.maps.Animation.DROP}
-            //animation={arr.length === 1 ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP}
           >
             {marker.isOpen && (
               <InfoWindow>
