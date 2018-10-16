@@ -62,7 +62,8 @@ class App extends Component {
           isOpen: false,  // open or closed
           isVisible: true, // render or not render
           id: venue.id,
-          animation: null,
+          //animation: null,
+          clickedMarker: false,
         };
       });
       this.setState({venues});
@@ -87,7 +88,8 @@ class App extends Component {
     const breweryMarkers = this.state.breweryMarkers.map(marker => {
       marker.isOpen = false; 
       // reset animation for all pins to null 
-      marker.animation = null;
+      //marker.animation = null;
+      marker.clickedMarker = false;
       return marker; 
     });
   // reset state of breweryMarkers array to update the attributes
@@ -98,7 +100,6 @@ class App extends Component {
   openInfoWindowOnVenueClick = (venue) => {
     // close all windows
     this.closeOpenMarkers();
-
     const markers = this.state.breweryMarkers;
     //console.log(venue) // TESTING 
     //console.log(markers) // TESTING
@@ -111,11 +112,10 @@ class App extends Component {
 
         // reset attributes on clicked pin
         marker.isOpen = true;
-        marker.animation = google.maps.Animation.BOUNCE;
+        //marker.animation = google.maps.Animation.BOUNCE;
         // reset state
         this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
         //console.log(this.state.breweryMarkers) // TESTING
-
         this.openInfoWindowOnClick(marker);
         //console.log(this); // TESTING
       }
@@ -147,11 +147,11 @@ class App extends Component {
     this.closeOpenMarkers()
     // reset attributes on clicked pin
     marker.isOpen = true;
-    marker.animation = google.maps.Animation.BOUNCE;
+    //marker.animation = google.maps.Animation.BOUNCE;
+    marker.clickedMarker = true; 
     // reset state
     this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    console.log(this.state.breweryMarkers) // TESTING
-    
+    console.log(this.state.breweryMarkers) // TESTING  
     // call infowindow function 
     this.openInfoWindowOnClick(marker);
   }
