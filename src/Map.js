@@ -3,8 +3,6 @@
 // https://www.youtube.com/watch?v=Q0vzqlnWWZw&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=3
 // marker animations:   https://developers.google.com/maps/documentation/javascript/examples/marker-animations
 
-///* global google */
-
 import React, {Component} from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 
@@ -28,8 +26,8 @@ const MyMapComponent = withScriptjs(
             id="markerPin"
             //icon={icons.beerIcon}
             position={{ lat: marker.lat, lng: marker.lng }}
-            //animation={google.maps.Animation.DROP}
-            onClick={() => props.learnMoreOnClick(marker)}
+            onClick={() => props.learnMoreOnClick(marker)}      
+            animation={marker.clickedMarker === true ? 1 : null}
           >
             {marker.isOpen && (
               <InfoWindow>
@@ -54,6 +52,15 @@ class Map extends Component {
   componentWillReceiveProps = (props) => {
     this.props = props
   }
+
+  //toggleBounce(marker) {
+    //if (marker.animation === 1) {
+      //marker.animation(google.maps.Animation.BOUNCE);
+    //} 
+    //else {
+      //return;
+    //}
+  //}
 
   render() {
     return (
