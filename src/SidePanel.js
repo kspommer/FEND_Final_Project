@@ -8,25 +8,12 @@ import React, {Component} from 'react'
 
 class SidePanel extends Component {
 
-	//setFilteredVenues() {
-		//const filteredVenues = this.props.venues; 
-		//console.log({filteredVenues});
-	//}
-
-	//componentWillMount() {
-		//console.log(this.props.venues)
-		//const filteredVenues = this.props.venues; 
-		//console.log({filteredVenues});
-	//}
-
 	// when props change, get the new data and trigger render update
 	componentWillReceiveProps = (props) => {
 		this.props = props
 	}
 
 	render() {
-
-		//const list = this.getFilteredList(this.state.query); 
     	return (
     		<div className="sidepanel">
 	          	<input type="search" 
