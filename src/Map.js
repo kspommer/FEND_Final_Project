@@ -2,13 +2,15 @@
 // https://tomchentw.github.io/react-google-maps
 // https://www.youtube.com/watch?v=Q0vzqlnWWZw&list=PL4rQq4MQP1crXuPtruu_eijgOUUXhcUCP&index=3
 // marker animations:   https://developers.google.com/maps/documentation/javascript/examples/marker-animations
+//<a href={venueInfo.url}>{venueInfo.url}</a>
 
 import React, {Component} from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
+import beerIcon from './beer-1538754_640.png' // need to size the icon
 
 // tried to use a custom beer image for marker pin
 //var icons = { 
-  //beerIcon: './beer-1538754_640'
+  //beerIcon: './beer-1538754_640.png'
 //}
 
 const MyMapComponent = withScriptjs(
@@ -24,18 +26,20 @@ const MyMapComponent = withScriptjs(
           <Marker 
             key={idx} 
             id="markerPin"
-            //icon={icons.beerIcon}
+            //icon={beerIcon}
             position={{ lat: marker.lat, lng: marker.lng }}
             onClick={() => props.learnMoreOnClick(marker)}      
             animation={marker.clickedMarker === true ? 1 : null}
+            //linkName={venueInfo.url !== ''  ? 'Website' : ''}
           >
             {marker.isOpen && (
-              <InfoWindow>
+              <InfoWindow className="info-window">
                 <React.Fragment> 
-                  <h3>{venueInfo.name}</h3>
-                  <p>{venueInfo.location.formattedAddress[0]}</p>
-                  <p>{venueInfo.location.formattedAddress[1]}</p>
-                  <a href={venueInfo.url}>{venueInfo.url}</a>
+                  <div>
+                    <h4>{venueInfo.name}</h4>
+                    <h5>{venueInfo.location.formattedAddress[0]}</h5>
+                    <h5>{venueInfo.location.formattedAddress[1]}</h5>
+                  </div>
                 </React.Fragment>
               </InfoWindow>
             )}
@@ -53,18 +57,10 @@ class Map extends Component {
     this.props = props
   }
 
-  //toggleBounce(marker) {
-    //if (marker.animation === 1) {
-      //marker.animation(google.maps.Animation.BOUNCE);
-    //} 
-    //else {
-      //return;
-    //}
-  //}
-
   render() {
     return (
       <MyMapComponent 
+        className="map"
         {...this.props}
         isMarkerShown
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB6N63ZIGH4b8Hgm9KhodA87Guuiem3C8Y"
