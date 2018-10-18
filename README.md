@@ -1,4 +1,4 @@
-# Madison MicroBreweries #
+# Madison Microbreweries #
 Developer:  Susan Pommer<br/>
 October 2018<br/>
 Udacity Front End NanoDegree Program, Project 7
@@ -11,7 +11,7 @@ The map displays 10 breweries in Madison, WI -- establishments identified as "br
 2.  Enter 'npm start'<br/>
 
 ## Resources
-Many thanks to @Forrest, Coach Doug and @Rodrick, who Udacity should all hire and without whom many of us would not still be same.   And of course, my study buddies Amy and Tom, and our fearless community leaders Kelsey and Brenda.  Wish I could buy them all a beer at The Capital Brewery!
+Many thanks to @Forrest, Coach Doug and @Rodrick, who Udacity should all hire and without whom many of us would not still be sane.   And of course, my study buddies Amy and Tom, and our fearless community leaders Kelsey and Brenda.  Wish I could buy them all a beer at The Capital Brewery!
 
 Other resources for this project includes:
 Forrest's 6-part video series:<br/>
