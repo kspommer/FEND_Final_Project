@@ -6,8 +6,6 @@
 // https://www.youtube.com/watch?v=Dj5hzKBxCBI
 // https://www.youtube.com/watch?v=dAhMIF0fNpo
 
-/* global google */
-
 import React, { Component } from 'react'
 import './App.css';
 //import Header from './Header.js'
@@ -16,9 +14,8 @@ import SquareAPI from './API_Call.js'
 import Map from './Map.js'
 import SidePanel from './SidePanel.js'
 
-
 // NOTE:  Shifted from a predefined llist of sites to with API search for "breweries"
-// my favorite microbreweries in Madison WI
+// but here are my favorite microbreweries in Madison WI!
 //const breweryList = [
   //{venue_Id: "4d686a320a25b60c55821790", name: "Great Dane Pub and Brewing Company", lat: 43.074376, lng: -89.380065, serveFood: "full menu"}, 
   //{venue_Id: "5704352b38fad4ea22a2da45", name: "Rockhound Brewing Company", lat: 43.06241, lng: -89.401158, serveFood: "full menu" }, 
@@ -43,15 +40,16 @@ class App extends Component {
       breweryMarkers: [],
       filteredBreweryMarkers: [],
       zoom: 10,
+      sidePanelOpen: true,
     };
   }
 
   componentDidMount() {
-  // asynch -- make sure that call is complete before try to render()
+  // asynch -- make sure API call is complete before try to render()
     SquareAPI.search({
       near: "Madison, WI", 
       query: "brewery", 
-      limit: 10
+      limit: 4
     //}).then(results => console.log(results)); // TESTING
     }).then(results => {
       const { venues } = results.response;
@@ -222,30 +220,25 @@ class App extends Component {
           return marker;
       });
       this.setState({breweryMarkers})
-      console.log({breweryMarkers});  // TESTING  
+      //console.log({breweryMarkers});  // TESTING  
     }
   }
-
 
   render() {
     return (
       <div className='App'>
-
           <div className="main-content">
-
             <SidePanel 
-              {...this.state} /// passes all state data
-              className="picklist"               
+              {...this.state} // passes all state data            
               openInfoWindowOnVenueClick = {this.openInfoWindowOnVenueClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
-
-            <Map 
+ 
+            <Map
+              className="map"
               {...this.state} // passes all state data
               learnMoreOnClick = {this.learnMoreOnClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
-
           </div>
-
       </div>  
     )
   }         
