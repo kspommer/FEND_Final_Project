@@ -9,10 +9,10 @@
 import React, { Component } from 'react'
 import './App.css';
 import Header from './Header.js'
-//import Footer from './Footer.js'
 import SquareAPI from './API_Call.js'
 import Map from './Map.js'
 import SidePanel from './SidePanel.js'
+import ErrorBoundary from './ErrorBoundary.js'
 
 // NOTE:  Shifted from a predefined llist of sites to with API search for "breweries"
 // but here are my favorite microbreweries in Madison WI!
@@ -228,19 +228,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <ErrorBoundary>
+          
           <Header className="header"/>
+          
           <div className="main">
             <SidePanel            
               {...this.state} // passes all state data            
               openInfoWindowOnVenueClick = {this.openInfoWindowOnVenueClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
+            
+            <label tabindex="0"className="hidden" aria-label="On next tab, map of Madison Wisconsin with markers for local microbreweries is displayed.">x</label>
+
             <Map
-              role="map"
-              alt="map of Madison Wisconsin"
               {...this.state} // passes all state data
               learnMoreOnClick = {this.learnMoreOnClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
           </div>
+        
+        </ErrorBoundary>
       </div>  
     )
   }         
