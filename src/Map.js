@@ -68,7 +68,10 @@ class Map extends Component {
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%`, width: `100%`}}/>}
         mapElement={<div style={{ height: `100%` }} />}
+        role="map"
+        alt={"Map of Madison, WI"}
       />
+
     )
   }
 }
