@@ -6,7 +6,7 @@
 
 import React, {Component} from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
-import beerIcon from './beer-1538754_640.png' // need to size the icon
+//import beerIcon from './beer-1538754_640.png' // need to size the icon
 
 // tried to use a custom beer image for marker pin
 //var icons = { 
@@ -16,6 +16,7 @@ import beerIcon from './beer-1538754_640.png' // need to size the icon
 const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap 
+      className="map"
       defaultZoom={12} 
       zoom={props.zoom}
       defaultCenter={{lat: 43.0731, lng: -89.4012}}>
@@ -30,15 +31,15 @@ const MyMapComponent = withScriptjs(
             position={{ lat: marker.lat, lng: marker.lng }}
             onClick={() => props.learnMoreOnClick(marker)}      
             animation={marker.clickedMarker === true ? 1 : null}
-            //linkName={venueInfo.url !== ''  ? 'Website' : ''}
+            //linkName={venueInfo.url} === null ? '' : 'Website'}
           >
             {marker.isOpen && (
-              <InfoWindow className="info-window">
+              <InfoWindow>
                 <React.Fragment> 
-                  <div>
-                    <h4>{venueInfo.name}</h4>
-                    <h5>{venueInfo.location.formattedAddress[0]}</h5>
-                    <h5>{venueInfo.location.formattedAddress[1]}</h5>
+                  <div className="info-window">
+                    <p className="info-title">{venueInfo.name}</p>
+                    <p className="info-subtext">{venueInfo.location.formattedAddress[0]}</p>
+                    <p className="info-subtext">{venueInfo.location.formattedAddress[1]}</p>
                   </div>
                 </React.Fragment>
               </InfoWindow>
