@@ -17,14 +17,16 @@ class SidePanel extends Component {
     	return (
     		<div className="sidepanel">
 	          	<input type="search" 
-	          	className="search-brewery" 
-	          	placeholder="Find a brewery" 
-	          	onChange={this.props.filterOnUserEntry}
+	          		className="search-brewery" 
+	          		placeholder="Find a brewery" 
+	          		onChange={this.props.filterOnUserEntry}
 	          	/>
 	    		<ol className="breweryList">
 	    			{this.props.filteredVenues && this.props.filteredVenues.map(venue  =>
 			    		<li 
 			    			className="breweryName" 
+			    			tabIndex="0"
+			    			role="menuitem"
 			    			key={venue.id}
 			    			onClick={() => this.props.openInfoWindowOnVenueClick({venue})}>
 			    			<img src={venue.categories[0].icon.prefix + "32"+ venue.categories[0].icon.suffix} alt={venue.categories[0].name}/>
@@ -32,7 +34,6 @@ class SidePanel extends Component {
 			    		</li>
 					)}
 	    		</ol>	
-
     		</div>
   		)
   	}
