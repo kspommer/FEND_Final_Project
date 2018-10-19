@@ -149,7 +149,7 @@ class App extends Component {
     marker.clickedMarker = true; 
     // reset state
     this.setState({breweryMarkers: Object.assign(this.state.breweryMarkers, marker)})
-    console.log(this.state.breweryMarkers) // TESTING  
+    //console.log(this.state.breweryMarkers) // TESTING  
     // call infowindow function 
     this.openInfoWindowOnClick(marker);
   }
@@ -229,12 +229,14 @@ class App extends Component {
     return (
       <div className="App">
           <Header className="header"/>
-          <div className="main-content">
+          <div className="main">
             <SidePanel            
               {...this.state} // passes all state data            
               openInfoWindowOnVenueClick = {this.openInfoWindowOnVenueClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
             <Map
+              role="map"
+              alt="map of Madison Wisconsin"
               {...this.state} // passes all state data
               learnMoreOnClick = {this.learnMoreOnClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
