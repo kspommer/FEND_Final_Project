@@ -46,6 +46,11 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
 }
 
 @media screen and (min-width: 450px) {
+  .hidden {
+    font-size: 0pt;
+    height: 100%;
+  }
+
   .map {
     width: 75%;
     height: 90%;
@@ -61,6 +66,11 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_list-style_colors */
 }
 
 @media screen and (max-width: 449px) {
+  .hidden {
+    font-size: 0pt;
+    height: 100%;
+  }
+
   .map {
     width: 100%;
     height: 100%;
