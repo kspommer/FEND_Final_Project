@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react'
 import './App.css';
-//import Header from './Header.js'
+import Header from './Header.js'
 //import Footer from './Footer.js'
 import SquareAPI from './API_Call.js'
 import Map from './Map.js'
@@ -200,6 +200,7 @@ class App extends Component {
   updateBreweryMarkers = (query) => {
     // take no action if no user entry 
     if (query === "") { 
+      // eslint-disable-next-line
       const breweryMarkers = this.state.breweryMarkers;
       // console.log({breweryMarkers});  // TESTING
     }
@@ -226,15 +227,14 @@ class App extends Component {
 
   render() {
     return (
-      <div className='App'>
+      <div className="App">
+          <Header className="header"/>
           <div className="main-content">
-            <SidePanel 
+            <SidePanel            
               {...this.state} // passes all state data            
               openInfoWindowOnVenueClick = {this.openInfoWindowOnVenueClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
- 
             <Map
-              className="map"
               {...this.state} // passes all state data
               learnMoreOnClick = {this.learnMoreOnClick}
               filterOnUserEntry = {this.filterOnUserEntry}/>
