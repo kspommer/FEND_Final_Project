@@ -15,16 +15,25 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "reac
 
 const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
-    <GoogleMap 
-      className="map"
-      defaultZoom={12} 
-      zoom={props.zoom}
-      defaultCenter={{lat: 43.0731, lng: -89.4012}}>
+      <GoogleMap 
+        className="map"
+        defaultZoom={12} 
+        zoom={props.zoom}
+        defaultCenter={{lat: 43.0731, lng: -89.4012}}
+        defaultOptions={{
+          streetViewControl: false,
+          scaleControl: false,
+          mapTypeControl: false,
+          panControl: false,
+          zoomControl: true,
+          rotateControl: false,
+          fullscreenControl: false
+        }}>
 
       {props.breweryMarkers && props.breweryMarkers.filter(marker => marker.isVisible).map((marker, idx) => {
         const venueInfo = props.filteredVenues.find(venue => (venue.id === marker.id))
         return (
-          <Marker 
+          <Marker
             key={idx} 
             id="markerPin"
             //icon={beerIcon}
@@ -46,8 +55,8 @@ const MyMapComponent = withScriptjs(
             )}
           </Marker>
         )  
-      })}
-    </GoogleMap>
+      })}  
+      </GoogleMap>
   ))  
 );
 
@@ -68,8 +77,6 @@ class Map extends Component {
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%`, width: `100%`}}/>}
         mapElement={<div style={{ height: `100%` }} />}
-        role="map"
-        alt={"Map of Madison, WI"}
       />
 
     )
